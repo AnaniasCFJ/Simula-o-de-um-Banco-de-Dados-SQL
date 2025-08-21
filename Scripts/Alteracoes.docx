@@ -1,0 +1,54 @@
+Questão 1)
+-- A = 671181245
+-- B = 918228587
+
+INSERT INTO Contato(Nome, CodAluno, Telefone)
+SELECT Nome, '918228587', Telefone
+FROM Contato
+WHERE CodAluno = '671181245';
+
+DELETE FROM Contato
+WHERE CodAluno = '671181245';
+
+
+Questão 2)
+-- Professor = 453843865
+
+UPDATE Escola
+SET CodProfDir = (SELECT Codigo
+                 FROM Professor
+                 WHERE Codigo <> '453843865'
+                 LIMIT 1)
+WHERE CodProfDir = '453843865';
+ 
+DELETE FROM AdmDisc
+WHERE CodProf = '453843865';
+
+DELETE FROM Professor
+WHERE Codigo = '453843865';
+
+DELETE FROM Pessoa
+WHERE Codigo = '453843865';
+
+
+Questão 3)
+-- P1 = 215652143
+-- P2 = 456542133
+
+INSERT INTO AdmDisc(CodProf, CodDisc, CodTurma)
+SELECT DISTINCT '456542133', CodDisc, NULL
+FROM AdmDisc
+WHERE CodDisc IN
+(SELECT CodDisc
+FROM AdmDisc, Professor
+WHERE AdmDisc.CodProf = Professor.Codigo
+AND Professor.Codigo = '215652143')
+AND CodDisc NOT IN
+(SELECT CodDisc
+FROM AdmDisc, Professor
+WHERE AdmDisc.CodProf = Professor.Codigo
+AND Professor.Codigo = '456542133');
+
+UPDATE AdmDisc
+SET CodProf = '456542133'
+WHERE CodProf = '215652143';
