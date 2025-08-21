@@ -1,0 +1,69 @@
+Questão 1
+
+SELECT E.Nome AS Escola, C.Nome AS Cidade
+FROM Escola E, Cidade C
+WHERE E.CodCidade = C.Codigo
+AND NOT EXISTS
+ (SELECT 1
+FROM Aluno A, Pessoa P, Turma T
+WHERE A.Codigo = P.Codigo
+AND A.CodTurma = T.Codigo
+AND T.CodEscola = E.Codigo
+AND P.CodCidade <> C.Codigo
+);
+
+Questão 2
+
+SELECT Nome, Matricula
+FROM Aluno NATURAL JOIN Pessoa
+WHERE NOT EXISTS 
+(SELECT 1
+FROM Contato
+WHERE Contato.CodAluno = Aluno.Codigo
+);
+
+Questão 3
+
+SELECT Codigo, Nome
+FROM Turma
+WHERE (SELECT COUNT(*)
+FROM Aluno
+WHERE Aluno.CodTurma=Turma.Codigo)>5;
+
+Questão 4
+
+SELECT Professor.Codigo, Pessoa.Nome, Professor.Titulacao
+FROM Pessoa, Professor
+WHERE Pessoa.Codigo = Professor.Codigo AND
+(SELECT COUNT(DISTINCT CodTurma)
+FROM AdmDisc
+WHERE AdmDisc.CodProf=Professor.Codigo)>2;
+
+Questão 5
+
+SELECT D.Nome,
+  (SELECT COUNT(DISTINCT A1.CodProf)
+   FROM AdmDisc A1
+   WHERE A1.CodDisc = D.Codigo AND A1.CodTurma IS NULL
+  ) AS NumProfHabilitados,
+  (SELECT COUNT(DISTINCT A2.CodProf)
+   FROM AdmDisc A2
+   WHERE A2.CodDisc = D.Codigo AND A2.CodTurma IS NOT NULL
+  ) AS NumProfEfetivados
+FROM Disciplina D;
+
+Questão 6
+
+SELECT DISTINCT Escola.Nome AS Escola, Pessoa.Nome AS Diretor
+FROM Escola, Pessoa
+WHERE Escola.CodProfDir = Pessoa.Codigo
+AND Escola.CodCidade <> Pessoa.CodCidade;
+
+Questão 7
+
+SELECT E.Nome, COUNT(DISTINCT T.Codigo) AS NumTurmas, COUNT(DISTINCT A.CodProf) AS NumProfessores
+FROM Escola E, Turma T, AdmDisc A
+WHERE T.CodEscola = E.Codigo
+AND A.CodTurma = T.Codigo
+GROUP BY E.Nome;
+
