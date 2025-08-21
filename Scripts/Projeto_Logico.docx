@@ -1,0 +1,62 @@
+Projeto Lógico
+
+
+
+
+
+
+Pessoa(Codigo, Nome, Telefone, CodCidade)
+
+"CodCidade referencia Cidade"
+
+
+
+Professor(Codigo, RG, CPF, Titulacao)
+
+"Codigo referencia Pessoa"
+
+
+
+Disciplina(Codigo, Nome)
+
+
+
+Turma(Codigo, Nome, CodEscola)
+
+"CodEscola referencia Escola"
+
+
+
+AdmDisc(CodProf, CodDisc, CodTurma)
+
+"CodProf referencia Professor"
+
+"CodDisc referencia Disciplina"
+
+"CodTurma referencia Turma"
+
+
+
+Aluno(Codigo, Matricula, DataNasc, CodTurma)
+
+"Codigo referencia Pessoa"
+
+"CodTurma referencia Turma"
+
+
+
+Contato(Nome, CodAluno, Telefone)
+
+"CodAluno referencia Aluno"
+
+
+
+Escola(Codigo, Nome, CodCidade, CodProfDir)
+
+"CodCidade referencia Cidade"
+
+"CodProfDir referencia Professor"
+
+
+
+Cidade(Codigo, Nome)
